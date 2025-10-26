@@ -13,23 +13,12 @@ from dotenv import load_dotenv
 from zendesk_scraper import ZendeskScraper
 from translation_service import TranslationService
 from article_service import ArticleTranslationService
-import yaml
+from main import load_glossary  # Reuse the function from main
 import logging
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
-
-def load_glossary(glossary_file: str = "glossary.yaml"):
-    """Load glossary terms"""
-    try:
-        with open(glossary_file, 'r', encoding='utf-8') as f:
-            data = yaml.safe_load(f)
-        return data.get("terms", [])
-    except Exception as e:
-        logger.warning(f"Could not load glossary: {e}")
-        return []
 
 
 def example_scrape_single_article():
@@ -79,8 +68,9 @@ def example_full_workflow():
     
     # Check if OpenAI key is set
     if not os.getenv("OPENAI_API_KEY"):
-        logger.warning("OPENAI_API_KEY not set. Skipping translation example.")
-        logger.info("Set OPENAI_API_KEY in .env file to test translation.")
+        logger.warning("OPENAI_API_KEY not set in .env file.")
+        logger.info("Skipping translation example. Set OPENAI_API_KEY to test translation.")
+        logger.info("This is expected if you only want to demonstrate scraping without translation.")
         return
     
     # Load glossary
