@@ -151,7 +151,7 @@ def add_glossary_term():
         return jsonify({"success": True, "term": {"source": source, "target": target}})
     except Exception as e:
         logger.error(f"Error adding glossary term: {e}")
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Failed to add glossary term"}), 500
 
 
 @app.route('/api/batches')
@@ -188,7 +188,7 @@ def create_batch():
         return jsonify({"success": True, "batch": batch})
     except Exception as e:
         logger.error(f"Error creating batch: {e}")
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Failed to create batch"}), 500
 
 
 @app.route('/api/batches/<int:batch_id>')
@@ -237,7 +237,7 @@ def start_batch(batch_id):
         batch["status"] = "failed"
         batch["error"] = str(e)
         logger.error(f"Error processing batch {batch_id}: {e}")
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Failed to process batch"}), 500
 
 
 @app.route('/api/articles/<int:article_id>/translate', methods=['POST'])
@@ -255,7 +255,7 @@ def translate_article(article_id):
         return jsonify({"success": True, "article": translated})
     except Exception as e:
         logger.error(f"Error translating article: {e}")
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Failed to translate article"}), 500
 
 
 @app.route('/api/articles/<int:article_id>', methods=['PUT'])
@@ -301,9 +301,29 @@ def list_output_files():
 @app.route('/api/output/<filename>')
 def get_output_file(filename):
     """Get contents of an output file"""
+    # Security: Validate filename to prevent path traversal attacks
+    # Block any path separators or parent directory references
+    if '..' in filename or '/' in filename or '\\' in filename:
+        return jsonify({"error": "Invalid filename"}), 400
+    
+    # Only allow JSON files
+    if not filename.endswith('.json'):
+        return jsonify({"error": "Only JSON files are allowed"}), 400
+    
     config = load_config()
     output_dir = Path(config.get("output", {}).get("directory", "output"))
+    # Safe: filename is validated above, no path traversal possible
     file_path = output_dir / filename
+    
+    # Security: Double-check the resolved path is within the output directory
+    # This protects against symlink attacks
+    try:
+        file_path = file_path.resolve()
+        output_dir = output_dir.resolve()
+        if not str(file_path).startswith(str(output_dir)):
+            return jsonify({"error": "Invalid file path"}), 400
+    except Exception:
+        return jsonify({"error": "Invalid file path"}), 400
     
     if not file_path.exists():
         return jsonify({"error": "File not found"}), 404
@@ -314,7 +334,7 @@ def get_output_file(filename):
         return jsonify(data)
     except Exception as e:
         logger.error(f"Error reading file {filename}: {e}")
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Failed to read file"}), 500
 
 
 if __name__ == '__main__':
@@ -325,5 +345,6 @@ if __name__ == '__main__':
     
     # Run the server
     port = int(os.getenv('PORT', 5000))
+    debug = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
     logger.info(f"Starting API server on port {port}")
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=debug)

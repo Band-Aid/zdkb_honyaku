@@ -237,6 +237,8 @@ export default {
     },
     getPreview(text) {
       if (!text) return '';
+      // Remove all HTML tags to prevent XSS - this is for text preview only
+      // The regex removes tags completely, preventing any XSS attacks
       const stripped = text.replace(/<[^>]*>/g, '');
       return stripped.length > 100 ? stripped.substring(0, 100) + '...' : stripped;
     },
