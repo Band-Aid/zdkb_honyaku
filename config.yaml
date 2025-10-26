@@ -1,0 +1,14 @@
+# Configuration for Zendesk KB Translation
+
+# Glossary/Translation Memory
+glossary_file: "glossary.yaml"
+
+# Translation settings
+translation:
+  target_language: "Japanese"
+  preserve_html: true
+  
+# Output settings
+output:
+  directory: "output"
+  format: "json"
