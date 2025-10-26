@@ -21,6 +21,16 @@ This batch program fetches articles from Zendesk Help Center and translates them
 - ✅ Save translated articles in JSON format
 - ✅ Comprehensive logging and error handling
 - ✅ Support for both standard OpenAI and Azure OpenAI
+- ✅ **NEW: Vue.js Web UI for batch management and translation review**
+- ✅ **NEW: Interactive translation quality checker with side-by-side comparison**
+- ✅ **NEW: Translation editor for refining translations**
+- ✅ **NEW: Glossary management interface**
+
+## Web UI Preview
+
+![Batch Management UI](https://github.com/user-attachments/assets/d1ef7149-7e48-431d-91f1-92cd9d44da1d)
+
+The web interface provides an intuitive dashboard for managing translation batches, reviewing translations, and maintaining your glossary.
 
 ## Prerequisites
 
@@ -106,6 +116,8 @@ Add more terms specific to your domain to ensure consistent terminology across a
 
 ## Usage
 
+### Command Line (Batch Mode)
+
 Run the translation batch program:
 
 ```bash
@@ -118,6 +130,37 @@ The program will:
 3. Translate each article using OpenAI/Azure OpenAI
 4. Apply glossary terms for consistent terminology
 5. Save translated articles to the output directory
+
+### Web UI (Interactive Mode)
+
+Start the web interface for interactive batch management and translation review:
+
+```bash
+# Start the API server
+python api_server.py
+```
+
+Then open your browser to `http://localhost:5000`
+
+Or run in development mode:
+
+```bash
+# Terminal 1: Start API server
+python api_server.py
+
+# Terminal 2: Start Vue dev server
+cd frontend
+npm install  # First time only
+npm run dev
+```
+
+Then open your browser to `http://localhost:3000`
+
+The web UI provides:
+- **Batch Management**: Create and monitor translation batches
+- **Translation Review**: Side-by-side comparison of original and translated content
+- **Translation Editor**: Edit and refine translations
+- **Glossary Manager**: Manage translation memory terms
 
 ## Output
 
@@ -155,7 +198,8 @@ The program includes robust error handling:
 
 ```
 zdkb_honyaku/
-├── main.py                 # Main batch program
+├── main.py                 # Main batch program (CLI)
+├── api_server.py           # Flask API server for web UI
 ├── zendesk_client.py       # Zendesk API client
 ├── translation_service.py  # OpenAI/Azure translation service
 ├── config.yaml             # Configuration file
@@ -163,6 +207,13 @@ zdkb_honyaku/
 ├── requirements.txt        # Python dependencies
 ├── .env.example            # Environment variables template
 ├── .gitignore              # Git ignore patterns
+├── frontend/               # Vue.js web UI
+│   ├── src/
+│   │   ├── views/         # Page components
+│   │   ├── services/      # API client
+│   │   └── App.vue        # Root component
+│   ├── package.json       # Frontend dependencies
+│   └── README.md          # Frontend documentation
 └── README.md               # This file
 ```
 
