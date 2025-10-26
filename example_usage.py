@@ -74,7 +74,8 @@ def example_full_workflow():
         return
     
     # Load glossary
-    glossary = load_glossary()
+    glossary_file = "glossary.csv"  # Update this path as needed
+    glossary = load_glossary(glossary_file)
     
     # Initialize services
     translator = TranslationService(
