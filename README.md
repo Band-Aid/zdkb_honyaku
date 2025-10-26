@@ -26,6 +26,12 @@ This batch program fetches articles from Zendesk Help Center and translates them
 - ✅ **NEW: Translation editor for refining translations**
 - ✅ **NEW: Glossary management interface**
 
+## Web UI Preview
+
+![Batch Management UI](https://github.com/user-attachments/assets/d1ef7149-7e48-431d-91f1-92cd9d44da1d)
+
+The web interface provides an intuitive dashboard for managing translation batches, reviewing translations, and maintaining your glossary.
+
 ## Prerequisites
 
 - Python 3.7 or higher
