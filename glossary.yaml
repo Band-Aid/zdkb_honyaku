@@ -1,0 +1,16 @@
+# Translation Glossary / Translation Memory
+# This file contains terminology that should be translated consistently
+
+terms:
+  - source: "Knowledge Base"
+    target: "ナレッジベース"
+  - source: "Support"
+    target: "サポート"
+  - source: "FAQ"
+    target: "よくある質問"
+  - source: "Tutorial"
+    target: "チュートリアル"
+  - source: "Documentation"
+    target: "ドキュメント"
+
+# Add more terms as needed for your specific use case
