@@ -81,13 +81,13 @@ python test_translation.py
 
 ## Common Issues
 
-### Missing API Credentials
-Error: `Missing Zendesk credentials`
-Solution: Ensure all required variables in `.env` are set
+- **Missing API Credentials**
+  - Error: `Missing Zendesk credentials`
+  - Solution: Ensure all required variables in `.env` are set
 
-### OpenAI API Errors
-Error: `The api_key client option must be set`
-Solution: Check `OPENAI_API_KEY` in `.env`
+- **OpenAI API Errors**
+  - Error: `The api_key client option must be set`
+  - Solution: Check `OPENAI_API_KEY` in `.env`
 
-### Rate Limiting
-If you hit API rate limits, the program will log errors for specific articles but continue processing others.
+- **Rate Limiting**
+  - If you hit API rate limits, the program will log errors for specific articles but continue processing others.

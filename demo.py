@@ -188,9 +188,11 @@ terms:
 def main():
     """Run all demos"""
     print("\n")
-    print("╔" + "═" * 68 + "╗")
-    print("║" + " " * 10 + "ZENDESK KB TRANSLATION SYSTEM DEMO" + " " * 24 + "║")
-    print("╚" + "═" * 68 + "╝")
+    title = "ZENDESK KB TRANSLATION SYSTEM DEMO"
+    width = 70
+    print("╔" + "═" * (width - 2) + "╗")
+    print("║" + title.center(width - 2) + "║")
+    print("╚" + "═" * (width - 2) + "╝")
     print()
     
     demo_configuration()
