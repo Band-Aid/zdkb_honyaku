@@ -1,13 +1,15 @@
 import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue';
+import ArticleList from './views/ArticleList.vue';
 import BatchList from './views/BatchList.vue';
 import BatchDetail from './views/BatchDetail.vue';
 import ArticleEditor from './views/ArticleEditor.vue';
 import GlossaryManager from './views/GlossaryManager.vue';
 
 const routes = [
-  { path: '/', redirect: '/batches' },
+  { path: '/', redirect: '/articles' },
+  { path: '/articles', component: ArticleList },
   { path: '/batches', component: BatchList },
   { path: '/batches/:id', component: BatchDetail },
   { path: '/articles/:id/edit', component: ArticleEditor },

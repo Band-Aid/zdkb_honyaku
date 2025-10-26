@@ -6,6 +6,7 @@
           <h1>📚 Zendesk KB Translation Manager</h1>
         </div>
         <div class="navbar-menu">
+          <router-link to="/articles" class="nav-link">Articles</router-link>
           <router-link to="/batches" class="nav-link">Batches</router-link>
           <router-link to="/glossary" class="nav-link">Glossary</router-link>
         </div>
