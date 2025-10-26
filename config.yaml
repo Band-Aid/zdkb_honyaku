@@ -1,5 +1,9 @@
 # Configuration for Zendesk KB Translation
 
+# Zendesk Help Center settings
+zendesk:
+  base_url: "https://support.pendo.io"
+
 # Glossary/Translation Memory
 glossary_file: "glossary.yaml"
 
@@ -11,4 +15,4 @@ translation:
 # Output settings
 output:
   directory: "output"
-  format: "json"
+  format: "markdown"  # Save as markdown files
