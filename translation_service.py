@@ -17,7 +17,8 @@ class TranslationService:
                  target_language: str,
                  glossary: Optional[List[Dict[str, str]]] = None,
                  use_azure: bool = False,
-                 model: str = "gpt-4"):
+                 model: str = "gpt-4",
+                 api_key: Optional[str] = None):
         """
         Initialize translation service
         
@@ -26,21 +27,31 @@ class TranslationService:
             glossary: List of term dictionaries with 'source' and 'target' keys
             use_azure: Whether to use Azure OpenAI instead of standard OpenAI
             model: Model name to use (for standard OpenAI) or deployment name (for Azure)
+            api_key: Optional API key (for testing or explicit configuration)
         """
         self.target_language = target_language
         self.glossary = glossary or []
         self.model = model
+        self.use_azure = use_azure
+        self._api_key = api_key
+        self._client = None
+        self.deployment = None
         
-        if use_azure:
-            self.client = AzureOpenAI(
-                api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-                api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2023-05-15"),
-                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
-            )
-            self.deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", model)
-        else:
-            self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-            self.deployment = model
+    @property
+    def client(self):
+        """Lazy initialization of OpenAI client"""
+        if self._client is None:
+            if self.use_azure:
+                self._client = AzureOpenAI(
+                    api_key=self._api_key or os.getenv("AZURE_OPENAI_API_KEY"),
+                    api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2023-05-15"),
+                    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+                )
+                self.deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", self.model)
+            else:
+                self._client = OpenAI(api_key=self._api_key or os.getenv("OPENAI_API_KEY"))
+                self.deployment = self.model
+        return self._client
             
     def _build_system_prompt(self) -> str:
         """
